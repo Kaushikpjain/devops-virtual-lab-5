@@ -1,0 +1,14 @@
+---
+- name: Configure Server
+  hosts: servers
+  become: yes
+
+  tasks:
+    - name: Install Docker
+      command: yum install -y docker
+
+    - name: Start Docker
+      command: systemctl start docker
+
+    - name: Enable Docker
+      command: systemctl enable docker
