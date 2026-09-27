@@ -10,12 +10,24 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build Docker Image
         run: docker build -t devops-lab-app ./app
 
+      - name: Start Minikube
+        uses: medyagh/setup-minikube@latest
+
+      - name: Load Docker Image into Minikube
+        run: minikube image load devops-lab-app
+
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f k8s/deployment.yml
-          kubectl apply -f k8s/service.yml
+          minikube kubectl -- apply -f k8s/deployment.yml
+          minikube kubectl -- apply -f k8s/service.yml
+
+      - name: Verify Deployment
+        run: |
+          minikube kubectl -- rollout status deployment/devops-app
+          minikube kubectl -- get pods
+          minikube kubectl -- get service devops-service
