@@ -11,7 +11,7 @@ resource "aws_security_group" "devops_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["3.107.58.47/32"]
+    cidr_blocks = ["16.178.159.237/32"]
   }
 
   egress {
